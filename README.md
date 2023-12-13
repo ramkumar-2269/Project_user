@@ -4,6 +4,7 @@
 
 - Java Development Kit (JDK) 8 or later
 - Maven
+- Mysql 
 
 ### Installing
 
