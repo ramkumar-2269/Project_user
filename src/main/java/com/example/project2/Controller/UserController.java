@@ -1,6 +1,6 @@
 package com.example.project2.Controller;
 
-import java.security.SecureRandom;
+//import java.security.SecureRandom;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,24 +34,21 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Username already exists");
         }
         else{
-            String generatedPassword = generateRandomPassword(8);
+            String generatedPassword = generateRandomPassword(user.getUserName());
             user.setPassword(generatedPassword);
             userRepository.save(user);
             return ResponseEntity.status(HttpStatus.CREATED).body("User succesfully created. Password is :"+generatedPassword);
         }
     }
 
-    private String generateRandomPassword(int length) {
-        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+";
-        SecureRandom secureRandom = new SecureRandom();
-
-        StringBuilder password = new StringBuilder(length);
-        for (int i = 0; i < length; i++) {
-            int randomIndex = secureRandom.nextInt(characters.length());
-            password.append(characters.charAt(randomIndex));
+    private String generateRandomPassword(String username) {
+        StringBuilder password = new StringBuilder();
+        for (char c : username.toCharArray()) {
+            int asciiValue = (int) c;
+            password.append(asciiValue);
         }
-
         return password.toString();
+        
     }
 
     //To get all the users
